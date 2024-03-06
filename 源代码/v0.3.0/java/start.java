@@ -13,7 +13,7 @@ public class start extends JFeram{
                 try{
                     seed=def.input();
                 }catch(){
-                    
+                    System.exit(130);
                 }
             }else {
                 seed = def.seed(1000000000,2147483647);
