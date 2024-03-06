@@ -11,7 +11,10 @@ public class start extends JFeram{
             String __ass__ = _q_.nextLine();
             if(__ass__.equals("n")) {
                 try{
-                    seed=def.input();}
+                    seed=def.input();
+                }catch(){
+                    
+                }
             }else {
                 seed = def.seed(1000000000,2147483647);
             }
