@@ -38,7 +38,7 @@ public class log{
         port=api.getUsablePort(1);
         ServerSocket serverSocket = new ServerSocket(port);
         String $$$aaa = Integer.toString(port);
-        File $$log = new File("../temp",$$$aaa);
+        File $$log = new File("../src/temp",$$$aaa);
         $$log.createNewFile();
     }
     //TODO tempTEST
