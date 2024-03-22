@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Minecraft1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jar文件/v0.3.0/Minecraft.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
