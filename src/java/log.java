@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.io.*;
 
-public class log{
+public class log extends Thread{
     //初始化方法
     public static void initlog() {
         //获取时间戳并进行分割处理
@@ -32,14 +32,78 @@ public class log{
         String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));
         return sd;
     }
-
-    public static void GetBroadcasts() throws IOException {
+    public void run() {
         int port;
-        port=api.getUsablePort(1);
-        ServerSocket serverSocket = new ServerSocket(port);
-        String $$$aaa = Integer.toString(port);
-        File $$log = new File("../src/temp",$$$aaa);
-        $$log.createNewFile();
+        try {
+            //获取可用端口
+            port=api.getUsablePort(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ServerSocket serverSocket;
+        try {
+            //创建套接字
+            serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String $$lj = (date().split(" "))[0];
+
+        File file = new File("../src/log",$$lj+"LOG.log");
+        String Bug = "[BUG!]";
+        String Error = "[ERROR]";
+        String Warn = "[WARN]";
+        String Info = "[INFO]";
+        String Debug = "[DERBUG]";
+        while (true){
+            Socket client;
+            try {
+                client = serverSocket.accept();
+                //创建输入输出流
+                InputStream inputStream = client.getInputStream();
+                OutputStream outputStream = client.getOutputStream();
+                //读取信息
+                byte[] buffer = new byte[2048];
+                if(buffer.equals(null)){
+                    continue;
+                }
+                FileWriter writer = new FileWriter(file,true);
+                //解析数据
+                int bytesRead = inputStream.read(buffer);
+                String $$msg = new String(buffer,0,bytesRead);
+                //拆分数据
+                String[] $$arr = $$msg.split(" ");
+                String $msg = $$arr[1];
+
+                //向客户端发送数据
+                outputStream.write($msg.getBytes());
+
+                String $level = $$arr[0];
+                String level;
+                String $i = date();
+                String[] $$a = $i.split(" ");
+                String time = $$a[1];
+                //判断日志等级写入文件
+                if($level=="1"){
+                    level = Bug;
+                    writer.write(time+level+$msg+'\n');
+                } else if ($level=="2") {
+                    level = Error;
+                    writer.write(time+level+$msg+'\n');
+                }else if($level=="3"){
+                    level = Warn;
+                    writer.write(time+level+$msg+'\n');
+                } else if ($level=="4") {
+                    level = Info;
+                    writer.write(time+level+$msg+'\n');
+                } else if ($level=="5") {
+                    level = Debug;
+                    writer.write(time+level+$msg+'\n');
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     //TODO tempTEST
     /*
